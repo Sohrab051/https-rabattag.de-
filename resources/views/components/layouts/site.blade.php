@@ -21,9 +21,8 @@
 
     <header class="sticky top-0 z-40 border-b border-gray-200 bg-white/90 backdrop-blur dark:border-gray-800 dark:bg-gray-950/90">
         <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
-            <a href="{{ route('home') }}" class="flex items-center gap-2 font-display text-lg font-extrabold text-primary-600">
-                <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-600 text-white">%</span>
-                {{ config('app.name') }}
+            <a href="{{ route('home') }}" class="flex items-center">
+                <x-logo class="h-8 w-auto" />
             </a>
 
             <form action="{{ route('stores.index') }}" method="GET" class="hidden flex-1 max-w-md sm:block">
@@ -46,7 +45,11 @@
                 <x-language-switcher />
 
                 @auth
-                    <a href="{{ route('dashboard') }}" class="btn-cta px-3 py-1.5 text-sm">{{ __('Dashboard') }}</a>
+                    @if(auth()->user()->hasAnyRole(['super-admin', 'content-manager', 'finance-manager', 'support']))
+                        <a href="{{ route('admin.dashboard') }}" class="btn-cta px-3 py-1.5 text-sm">{{ __('Dashboard') }}</a>
+                    @else
+                        <a href="{{ route('dashboard') }}" class="btn-cta px-3 py-1.5 text-sm">{{ __('Dashboard') }}</a>
+                    @endif
                 @else
                     <a href="{{ route('login') }}" class="text-sm font-medium text-gray-600 hover:text-primary-600 dark:text-gray-300">{{ __('Log in') }}</a>
                     <a href="{{ route('register') }}" class="btn-cta px-3 py-1.5 text-sm">{{ __('Sign up') }}</a>

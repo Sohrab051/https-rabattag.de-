@@ -18,12 +18,20 @@
     @livewireStyles
 </head>
 <body class="h-full bg-gray-100 font-sans text-gray-900 antialiased dark:bg-gray-950 dark:text-gray-100">
-    <div class="flex min-h-screen">
-        <aside class="hidden w-64 shrink-0 border-r border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 sm:block">
-            <a href="{{ route('admin.dashboard') }}" class="mb-8 flex items-center gap-2 px-2 font-display text-lg font-extrabold text-primary-600">
-                <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-600 text-white">%</span>
-                {{ config('app.name') }}
-            </a>
+    <div class="flex min-h-screen" x-data="{ sidebarOpen: false }">
+        <aside
+            x-cloak
+            :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full sm:translate-x-0'"
+            class="fixed inset-y-0 left-0 z-50 w-64 shrink-0 -translate-x-full border-r border-gray-200 bg-white p-4 transition-transform duration-200 ease-in-out dark:border-gray-800 dark:bg-gray-900 sm:static sm:translate-x-0 sm:block"
+        >
+            <div class="mb-8 flex items-center justify-between px-2">
+                <a href="{{ route('admin.dashboard') }}" class="flex items-center">
+                    <x-logo class="h-7 w-auto" />
+                </a>
+                <button type="button" x-on:click="sidebarOpen = false" class="rounded-lg p-2 text-gray-500 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800 sm:hidden" aria-label="{{ __('Close menu') }}">
+                    ✕
+                </button>
+            </div>
             <nav class="space-y-1 text-sm font-medium">
                 <a href="{{ route('admin.dashboard') }}" class="block rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800">{{ __('Dashboard') }}</a>
                 <a href="{{ route('admin.merchant-offer.create') }}" class="block rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800">{{ __('Add store & offer') }}</a>
@@ -39,9 +47,21 @@
             </nav>
         </aside>
 
-        <div class="flex-1">
+        <div
+            x-cloak
+            x-show="sidebarOpen"
+            x-on:click="sidebarOpen = false"
+            class="fixed inset-0 z-40 bg-black/50 sm:hidden"
+        ></div>
+
+        <div class="min-w-0 flex-1">
             <header class="flex items-center justify-between border-b border-gray-200 bg-white px-6 py-4 dark:border-gray-800 dark:bg-gray-900">
-                <h1 class="font-display text-lg font-bold">{{ $title ?? __('Admin') }}</h1>
+                <div class="flex items-center gap-3">
+                    <button type="button" x-on:click="sidebarOpen = true" class="rounded-lg p-2 text-gray-500 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800 sm:hidden" aria-label="{{ __('Open menu') }}">
+                        ☰
+                    </button>
+                    <h1 class="font-display text-lg font-bold">{{ $title ?? __('Admin') }}</h1>
+                </div>
                 <button type="button" x-data x-on:click="
                     document.documentElement.classList.toggle('dark');
                     try { localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light'); } catch (e) {}
