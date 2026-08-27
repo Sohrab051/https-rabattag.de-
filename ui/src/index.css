@@ -1,0 +1,144 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-200: #bfdbfe;
+  --color-primary-300: #93c5fd;
+  --color-primary-400: #60a5fa;
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
+  --color-primary-800: #1e40af;
+  --color-primary-900: #1e3a8a;
+
+  --color-cash-50: #f0fdf4;
+  --color-cash-100: #dcfce7;
+  --color-cash-200: #bbf7d0;
+  --color-cash-400: #4ade80;
+  --color-cash-500: #22c55e;
+  --color-cash-600: #16a34a;
+  --color-cash-700: #15803d;
+  --color-cash-800: #166534;
+
+  --color-urgent-50: #fff7ed;
+  --color-urgent-100: #ffedd5;
+  --color-urgent-200: #fed7aa;
+  --color-urgent-400: #fb923c;
+  --color-urgent-500: #f97316;
+  --color-urgent-600: #ea580c;
+  --color-urgent-700: #c2410c;
+
+  --color-surface-light: #f8fafc;
+  --color-surface-dark: #0f172a;
+  --color-card-light: #ffffff;
+  --color-card-dark: #1e293b;
+  --color-border-light: #e2e8f0;
+  --color-border-dark: #334155;
+
+  --radius-card: 10px;
+  --radius-btn: 8px;
+  --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.07), 0 4px 16px 0 rgb(0 0 0 / 0.06);
+  --shadow-card-hover: 0 4px 12px 0 rgb(0 0 0 / 0.10), 0 8px 24px 0 rgb(0 0 0 / 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  opacity: 0;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+.dark * {
+  scrollbar-color: #475569 transparent;
+}
+
+/* Prototype nav (page switcher) */
+.proto-nav {
+  font-family: var(--font-sans);
+}
+
+/* Card shadow util */
+.card-shadow {
+  box-shadow: var(--shadow-card);
+}
+.card-shadow-hover:hover {
+  box-shadow: var(--shadow-card-hover);
+}
+
+/* Countdown badge pulse */
+@keyframes pulse-urgent {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.75; }
+}
+.pulse-urgent {
+  animation: pulse-urgent 2s ease-in-out infinite;
+}
+
+/* Coupon reveal animation */
+@keyframes reveal-code {
+  from { letter-spacing: -0.5em; opacity: 0; }
+  to { letter-spacing: 0.1em; opacity: 1; }
+}
+.reveal-code {
+  animation: reveal-code 0.4s ease-out forwards;
+}
+
+/* Skeleton shimmer */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 6px;
+}
+.dark .skeleton {
+  background: linear-gradient(90deg, #334155 25%, #475569 50%, #334155 75%);
+  background-size: 200% 100%;
+}
+
+/* Transition defaults */
+.transition-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.transition-card:hover {
+  transform: translateY(-2px);
+}

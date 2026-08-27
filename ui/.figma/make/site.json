@@ -1,0 +1,10 @@
+{
+  "description": "Offers a bilingual cashback and coupon marketplace with trusted deals, user wallets, and admin tools for managing offers and transactions.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
