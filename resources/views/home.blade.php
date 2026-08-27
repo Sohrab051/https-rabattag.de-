@@ -53,8 +53,8 @@
             @forelse($categories as $category)
                 <a href="{{ route('stores.index', ['category' => $category->id]) }}"
                    class="group flex w-24 shrink-0 flex-col items-center gap-2 text-center sm:w-auto">
-                    <span class="flex h-16 w-16 items-center justify-center rounded-full bg-white text-2xl shadow-card ring-1 ring-gray-100 transition-transform group-hover:-translate-y-0.5 group-hover:shadow-card-hover dark:bg-gray-900 dark:ring-gray-800">
-                        {{ $category->icon ?? '🏷️' }}
+                    <span class="flex h-16 w-16 items-center justify-center rounded-full bg-white text-primary-600 shadow-card ring-1 ring-gray-100 transition-transform group-hover:-translate-y-0.5 group-hover:bg-primary-600 group-hover:text-white group-hover:shadow-card-hover dark:bg-gray-900 dark:text-primary-300 dark:ring-gray-800">
+                        <x-category-icon :slug="$category->slug" class="h-6 w-6" />
                     </span>
                     <span class="text-xs font-display font-semibold text-gray-700 dark:text-gray-200">{{ $category->name() }}</span>
                 </a>
