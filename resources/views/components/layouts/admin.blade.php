@@ -43,6 +43,7 @@
                 <a href="{{ route('admin.awin.index') }}" class="block rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800">{{ __('Awin') }}</a>
                 <a href="{{ route('admin.users.index') }}" class="block rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800">{{ __('Users') }}</a>
                 <a href="{{ route('admin.reports.export') }}" class="block rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800">{{ __('Export report (CSV)') }}</a>
+                <a href="{{ route('admin.settings') }}" class="block rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800">{{ __('Settings') }}</a>
                 <a href="{{ route('home') }}" class="mt-4 block rounded-lg px-3 py-2 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800">&larr; {{ __('Back to site') }}</a>
             </nav>
         </aside>

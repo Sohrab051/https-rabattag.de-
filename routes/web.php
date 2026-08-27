@@ -44,6 +44,8 @@ Route::prefix('{locale}')->where(['locale' => 'de|en'])->middleware('locale')->g
     Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(function () {
         Route::get('/', AdminDashboardController::class)->name('dashboard');
 
+        Route::view('settings', 'admin.settings')->name('settings');
+
         Route::get('/merchant-offer/create', [MerchantOfferController::class, 'create'])->name('merchant-offer.create');
         Route::post('/merchant-offer', [MerchantOfferController::class, 'store'])->name('merchant-offer.store');
 
