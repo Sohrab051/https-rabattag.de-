@@ -11,6 +11,7 @@ use App\Http\Controllers\GoRedirectController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LegalController;
 use App\Http\Controllers\MerchantController;
+use App\Http\Controllers\NewsletterController;
 use App\Http\Middleware\SetLocale;
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +27,8 @@ Route::prefix('{locale}')->where(['locale' => 'de|en'])->middleware('locale')->g
     Route::get('/', HomeController::class)->name('home');
     Route::get('/stores', [MerchantController::class, 'index'])->name('stores.index');
     Route::get('/store/{merchant:slug}', [MerchantController::class, 'show'])->name('stores.show');
+
+    Route::post('/newsletter/subscribe', [NewsletterController::class, 'store'])->name('newsletter.subscribe');
 
     Route::get('/impressum', [LegalController::class, 'impressum'])->name('legal.impressum');
     Route::get('/datenschutz', [LegalController::class, 'privacy'])->name('legal.privacy');

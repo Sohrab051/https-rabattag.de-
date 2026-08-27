@@ -43,7 +43,7 @@
         </div>
     </section>
 
-    {{-- Categories --}}
+    {{-- Categories rail --}}
     <section class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <div class="mb-4 flex items-center justify-between">
             <h2 class="font-display text-lg font-bold text-gray-900 dark:text-gray-100">{{ __('Browse categories') }}</h2>
@@ -66,60 +66,165 @@
         </div>
     </section>
 
-    {{-- Featured offers --}}
-    <section class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-        <div class="mb-4 flex items-center justify-between">
-            <h2 class="font-display text-lg font-bold text-gray-900 dark:text-gray-100">{{ __('Biggest discounts') }}</h2>
-            <a href="{{ route('stores.index') }}" class="text-sm font-semibold text-primary-600 hover:underline dark:text-primary-400">{{ __('View all') }}</a>
-        </div>
-        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            @forelse($featuredOffers as $offer)
-                <x-offer-card :offer="$offer" />
-            @empty
-                @for($i = 0; $i < 4; $i++)
-                    <x-skeleton-card />
-                @endfor
-            @endforelse
-        </div>
-    </section>
+    {{-- Sidebar + main content --}}
+    <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 gap-8 lg:grid-cols-[280px_1fr]">
+            {{-- Sidebar --}}
+            <aside class="order-2 space-y-6 lg:order-1">
+                {{-- Trending Deals --}}
+                <div class="card p-4">
+                    <h2 class="mb-3 font-display text-sm font-bold text-gray-900 dark:text-gray-100">{{ __('Trending Deals') }}</h2>
+                    <ul class="space-y-3">
+                        @forelse($trendingOffers as $offer)
+                            <li>
+                                <a href="{{ route('stores.show', ['merchant' => $offer->merchant->slug]) }}" class="flex items-center gap-2.5 group">
+                                    <div class="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-primary-100 to-primary-50 ring-1 ring-inset ring-primary-100 dark:from-primary-900/40 dark:to-primary-900/10 dark:ring-primary-800/40">
+                                        @if($offer->merchant->logo)
+                                            <img src="{{ Storage::url($offer->merchant->logo) }}" alt="{{ $offer->merchant->name() }}" class="h-full w-full object-contain">
+                                        @else
+                                            <span class="text-xs font-display font-bold text-primary-600 dark:text-primary-300">{{ mb_substr($offer->merchant->name(), 0, 1) }}</span>
+                                        @endif
+                                    </div>
+                                    <div class="min-w-0 flex-1">
+                                        <p class="truncate text-sm font-medium text-gray-800 group-hover:text-primary-600 dark:text-gray-200 dark:group-hover:text-primary-400">{{ $offer->merchant->name() }}</p>
+                                        <p class="truncate text-xs text-gray-500 dark:text-gray-400">{{ $offer->title() }}</p>
+                                    </div>
+                                    @if($offer->discount_value)
+                                        <span class="badge-discount shrink-0">-{{ rtrim(rtrim(number_format($offer->discount_value, 2), '0'), '.') }}%</span>
+                                    @endif
+                                </a>
+                            </li>
+                        @empty
+                            <li class="text-sm text-gray-500 dark:text-gray-400">{{ __('No offers yet. Check back soon!') }}</li>
+                        @endforelse
+                    </ul>
+                </div>
 
-    {{-- How it works --}}
-    <section class="bg-white py-12 dark:bg-gray-900">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="text-center">
-                <h2 class="font-display text-xl font-bold text-gray-900 dark:text-gray-100">{{ __('Start saving in 3 simple steps') }}</h2>
-                <p class="mx-auto mt-2 max-w-xl text-sm text-gray-500 dark:text-gray-400">{{ __('Getting a discount on your favorite stores has never been easier.') }}</p>
-            </div>
-            <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-3">
-                @foreach([
-                    ['icon' => '🔍', 'title' => __('Browse & choose'), 'text' => __('Explore verified deals from over :count partner stores.', ['count' => $stats['stores']])],
-                    ['icon' => '🏷️', 'title' => __('Activate the offer'), 'text' => __('Click through and the discount is applied automatically or via code.')],
-                    ['icon' => '🛍️', 'title' => __('Shop & save'), 'text' => __('Check out as usual and enjoy your discount, every time.')],
-                ] as $i => $step)
-                    <div class="relative rounded-2xl border border-gray-100 bg-surface-light p-6 text-center dark:border-gray-800 dark:bg-gray-950">
-                        <span class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary-600 text-xl text-white shadow-sm">{{ $step['icon'] }}</span>
-                        <p class="mt-3 font-display text-sm font-bold text-gray-900 dark:text-gray-100">{{ $i + 1 }}. {{ $step['title'] }}</p>
-                        <p class="mt-1.5 text-xs text-gray-500 dark:text-gray-400">{{ $step['text'] }}</p>
+                {{-- Newly Added --}}
+                <div class="card p-4">
+                    <h2 class="mb-3 font-display text-sm font-bold text-gray-900 dark:text-gray-100">{{ __('Newly added') }}</h2>
+                    <ul class="space-y-3">
+                        @forelse($newestOffers as $offer)
+                            <li>
+                                <a href="{{ route('stores.show', ['merchant' => $offer->merchant->slug]) }}" class="flex items-center justify-between gap-2 group">
+                                    <span class="truncate text-sm font-medium text-gray-800 group-hover:text-primary-600 dark:text-gray-200 dark:group-hover:text-primary-400">{{ $offer->merchant->name() }}</span>
+                                    @if($offer->discount_value)
+                                        <span class="badge-discount shrink-0">-{{ rtrim(rtrim(number_format($offer->discount_value, 2), '0'), '.') }}%</span>
+                                    @endif
+                                </a>
+                            </li>
+                        @empty
+                            <li class="text-sm text-gray-500 dark:text-gray-400">{{ __('No offers yet. Check back soon!') }}</li>
+                        @endforelse
+                    </ul>
+                </div>
+
+                {{-- Top Partner Brands --}}
+                <div class="card p-4">
+                    <h2 class="mb-3 font-display text-sm font-bold text-gray-900 dark:text-gray-100">{{ __('Top Partner Brands') }}</h2>
+                    <ul class="space-y-3">
+                        @forelse($topMerchants as $merchant)
+                            <li>
+                                <a href="{{ route('stores.show', ['merchant' => $merchant->slug]) }}" class="flex items-center gap-2.5 group">
+                                    <div class="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-primary-100 to-primary-50 ring-1 ring-inset ring-primary-100 dark:from-primary-900/40 dark:to-primary-900/10 dark:ring-primary-800/40">
+                                        @if($merchant->logo)
+                                            <img src="{{ Storage::url($merchant->logo) }}" alt="{{ $merchant->name() }}" class="h-full w-full object-contain">
+                                        @else
+                                            <span class="text-xs font-display font-bold text-primary-600 dark:text-primary-300">{{ mb_substr($merchant->name(), 0, 1) }}</span>
+                                        @endif
+                                    </div>
+                                    <div class="min-w-0 flex-1">
+                                        <p class="truncate text-sm font-medium text-gray-800 group-hover:text-primary-600 dark:text-gray-200 dark:group-hover:text-primary-400">{{ $merchant->name() }}</p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400">{{ trans_choice(':count offer|:count offers', $merchant->published_offers_count, ['count' => $merchant->published_offers_count]) }}</p>
+                                    </div>
+                                </a>
+                            </li>
+                        @empty
+                            <li class="text-sm text-gray-500 dark:text-gray-400">{{ __('No stores found.') }}</li>
+                        @endforelse
+                    </ul>
+                </div>
+
+                {{-- Newsletter --}}
+                <div class="card p-4">
+                    <h2 class="mb-1 font-display text-sm font-bold text-gray-900 dark:text-gray-100">{{ __('Get Weekly Deals') }}</h2>
+                    <p class="mb-3 text-xs text-gray-500 dark:text-gray-400">{{ __('The best discounts, delivered to your inbox every week.') }}</p>
+
+                    @if(session('newsletter_status'))
+                        <div class="mb-3 rounded-lg bg-discount-50 px-3 py-2 text-xs font-medium text-discount-800 dark:bg-discount-800/30 dark:text-discount-200">
+                            {{ session('newsletter_status') }}
+                        </div>
+                    @endif
+
+                    <form action="{{ route('newsletter.subscribe') }}" method="POST" class="space-y-2">
+                        @csrf
+                        <input type="email" name="email" required placeholder="{{ __('Your email address') }}"
+                               class="w-full rounded-lg border-gray-300 text-sm shadow-sm focus:border-primary-500 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800">
+                        @error('email')
+                            <p class="text-xs font-medium text-urgent-600 dark:text-urgent-400">{{ $message }}</p>
+                        @enderror
+                        <button type="submit" class="btn-cta w-full justify-center">{{ __('Subscribe') }}</button>
+                    </form>
+                </div>
+            </aside>
+
+            {{-- Main content --}}
+            <div class="order-1 space-y-10 lg:order-2">
+                {{-- Featured offers --}}
+                <section>
+                    <div class="mb-4 flex items-center justify-between">
+                        <h2 class="font-display text-lg font-bold text-gray-900 dark:text-gray-100">{{ __('Biggest discounts') }}</h2>
+                        <a href="{{ route('stores.index') }}" class="text-sm font-semibold text-primary-600 hover:underline dark:text-primary-400">{{ __('View all') }}</a>
                     </div>
-                @endforeach
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        @forelse($featuredOffers as $offer)
+                            <x-offer-card :offer="$offer" />
+                        @empty
+                            @for($i = 0; $i < 4; $i++)
+                                <x-skeleton-card />
+                            @endfor
+                        @endforelse
+                    </div>
+                </section>
+
+                {{-- How it works --}}
+                <section class="rounded-2xl bg-white py-10 dark:bg-gray-900">
+                    <div class="text-center">
+                        <h2 class="font-display text-xl font-bold text-gray-900 dark:text-gray-100">{{ __('Start saving in 3 simple steps') }}</h2>
+                        <p class="mx-auto mt-2 max-w-xl text-sm text-gray-500 dark:text-gray-400">{{ __('Getting a discount on your favorite stores has never been easier.') }}</p>
+                    </div>
+                    <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-3">
+                        @foreach([
+                            ['icon' => '🔍', 'title' => __('Browse & choose'), 'text' => __('Explore verified deals from over :count partner stores.', ['count' => $stats['stores']])],
+                            ['icon' => '🏷️', 'title' => __('Activate the offer'), 'text' => __('Click through and the discount is applied automatically or via code.')],
+                            ['icon' => '🛍️', 'title' => __('Shop & save'), 'text' => __('Check out as usual and enjoy your discount, every time.')],
+                        ] as $i => $step)
+                            <div class="relative rounded-2xl border border-gray-100 bg-surface-light p-6 text-center dark:border-gray-800 dark:bg-gray-950">
+                                <span class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary-600 text-xl text-white shadow-sm">{{ $step['icon'] }}</span>
+                                <p class="mt-3 font-display text-sm font-bold text-gray-900 dark:text-gray-100">{{ $i + 1 }}. {{ $step['title'] }}</p>
+                                <p class="mt-1.5 text-xs text-gray-500 dark:text-gray-400">{{ $step['text'] }}</p>
+                            </div>
+                        @endforeach
+                    </div>
+                </section>
+
+                {{-- Latest offers --}}
+                <section>
+                    <div class="mb-4 flex items-center justify-between">
+                        <h2 class="font-display text-lg font-bold text-gray-900 dark:text-gray-100">{{ __('Latest offers') }}</h2>
+                        <a href="{{ route('stores.index') }}" class="text-sm font-semibold text-primary-600 hover:underline dark:text-primary-400">{{ __('View all') }}</a>
+                    </div>
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        @forelse($latestOffers as $offer)
+                            <x-offer-card :offer="$offer" />
+                        @empty
+                            <p class="col-span-full text-sm text-gray-500 dark:text-gray-400">{{ __('No offers yet. Check back soon!') }}</p>
+                        @endforelse
+                    </div>
+                </section>
             </div>
         </div>
-    </section>
-
-    {{-- Latest offers --}}
-    <section class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-        <div class="mb-4 flex items-center justify-between">
-            <h2 class="font-display text-lg font-bold text-gray-900 dark:text-gray-100">{{ __('Latest offers') }}</h2>
-            <a href="{{ route('stores.index') }}" class="text-sm font-semibold text-primary-600 hover:underline dark:text-primary-400">{{ __('View all') }}</a>
-        </div>
-        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            @forelse($latestOffers as $offer)
-                <x-offer-card :offer="$offer" />
-            @empty
-                <p class="col-span-full text-sm text-gray-500 dark:text-gray-400">{{ __('No offers yet. Check back soon!') }}</p>
-            @endforelse
-        </div>
-    </section>
+    </div>
 
     {{-- Trust strip --}}
     <section class="bg-gradient-to-r from-primary-700 to-primary-900 py-10 text-white">

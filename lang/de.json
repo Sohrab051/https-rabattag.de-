@@ -175,5 +175,14 @@
     "Category updated.": "Kategorie aktualisiert.",
     "Category deleted.": "Kategorie gelöscht.",
     "Category status updated.": "Kategoriestatus aktualisiert.",
-    "This category cannot be deleted because it still has :merchants store(s) and :offers offer(s) assigned to it.": "Diese Kategorie kann nicht gelöscht werden, da ihr noch :merchants Shop(s) und :offers Angebot(e) zugeordnet sind."
+    "This category cannot be deleted because it still has :merchants store(s) and :offers offer(s) assigned to it.": "Diese Kategorie kann nicht gelöscht werden, da ihr noch :merchants Shop(s) und :offers Angebot(e) zugeordnet sind.",
+    "Browse Categories": "Kategorien durchsuchen",
+    "Trending Deals": "Beliebte Angebote",
+    "Newly added": "Neu hinzugefügt",
+    "Top Partner Brands": "Top-Partner-Shops",
+    "Get Weekly Deals": "Wöchentliche Angebote erhalten",
+    "The best discounts, delivered to your inbox every week.": "Die besten Rabatte, jede Woche in Ihr Postfach.",
+    "Subscribe": "Abonnieren",
+    "Your email address": "Ihre E-Mail-Adresse",
+    "Thanks! Get ready for our best deals.": "Danke! Sie erhalten bald unsere besten Angebote."
 }

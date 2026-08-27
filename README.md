@@ -1,6 +1,6 @@
-# DealHub — Coupon & Cashback Affiliate Marketplace
+# Rabattag — Discount Marketplace
 
-Bilingual (EN/DE) coupon and cashback affiliate marketplace built with Laravel, Livewire, Alpine.js, and Tailwind CSS. Built to run on ordinary shared/cPanel hosting — no Node.js, Redis, or root access required in production.
+Bilingual (DE/EN, German-first) discount marketplace built with Laravel, Livewire, Alpine.js, and Tailwind CSS. No cashback, no coupon codes — direct daily discount deals only, focused on fashion, shoes, and beauty. Built to run on ordinary shared/cPanel hosting — no Node.js, Redis, or root access required in production.
 
 ## Stack
 
@@ -49,6 +49,16 @@ Leave it running while you use the admin panel. It processes jobs as they're dis
 Note: `.claude/launch.json` intentionally does **not** include a `queue:work` entry — that file's schema (consumed by the dev-preview tooling) requires a `port` for each configuration, since it's designed for HTTP dev servers. `queue:work` is a long-running CLI process with no HTTP port to bind, so it doesn't fit that format; run the command above directly in a terminal instead.
 
 ## Deploying to a shared cPanel host
+
+### Deploy SSH key
+
+A public SSH key has been generated for automated/Git-based deployment access (e.g. cPanel Git Version Control, or a CI/deploy user), labeled `rabattag-deploy`. Add it to the host's authorized keys (cPanel → Security → SSH Access → Manage SSH Keys → Import Key, or append to `~/.ssh/authorized_keys` on the server) when setting up deployment access:
+
+```
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG2dEYdKr2Ks1GV5+qVTF4uWBzETUL8giSV77C/CtQ4p rabattag-deploy
+```
+
+This is a public key only — safe to store/share. The matching private key is not stored in this repo and must be kept securely by whoever controls the deploy process.
 
 1. **Build locally first** (cPanel has no Node.js in this workflow):
    ```bash
