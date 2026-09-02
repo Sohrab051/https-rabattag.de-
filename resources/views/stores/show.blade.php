@@ -85,7 +85,14 @@
         <div class="space-y-3">
             @forelse($merchant->reviews as $review)
                 <div class="card p-4">
-                    <p class="text-sm font-semibold text-gray-800 dark:text-gray-200">{{ $review->user->name }} &middot; {{ str_repeat('★', $review->rating) }}</p>
+                    <p class="flex items-center gap-2 text-sm font-semibold text-gray-800 dark:text-gray-200">
+                        {{ $review->user->name }}
+                        <span class="flex items-center gap-0.5 text-discount-500">
+                            @for($i = 0; $i < $review->rating; $i++)
+                                <svg class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 1.5l2.6 5.27 5.82.85-4.21 4.1.99 5.79L10 14.9l-5.2 2.61.99-5.79-4.21-4.1 5.82-.85z"/></svg>
+                            @endfor
+                        </span>
+                    </p>
                     <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">{{ $review->comment }}</p>
                 </div>
             @empty

@@ -27,7 +27,7 @@
             </div>
         </div>
         @if($hasDiscount)
-            <div class="flex shrink-0 flex-col items-center justify-center rounded-xl bg-discount-600 px-2.5 py-1.5 text-white shadow-sm">
+            <div class="flex shrink-0 flex-col items-center justify-center rounded-2xl bg-gradient-to-br from-discount-500 to-discount-400 px-2.5 py-1.5 text-primary-900 shadow-glow">
                 <span class="text-base font-display font-extrabold leading-none">-{{ rtrim(rtrim(number_format($offer->discount_value, 2), '0'), '.') }}%</span>
             </div>
         @endif

@@ -28,3 +28,6 @@ Thumbs.db
 
 # Local dev
 database/database.sqlite
+
+# Local UI/UX skill tool data (not project source)
+.claude/skills/

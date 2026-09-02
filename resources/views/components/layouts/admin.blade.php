@@ -29,7 +29,7 @@
                     <x-logo class="h-7 w-auto" />
                 </a>
                 <button type="button" x-on:click="sidebarOpen = false" class="rounded-lg p-2 text-gray-500 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800 sm:hidden" aria-label="{{ __('Close menu') }}">
-                    ✕
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
                 </button>
             </div>
             <nav class="space-y-1 text-sm font-medium">
@@ -59,14 +59,18 @@
             <header class="flex items-center justify-between border-b border-gray-200 bg-white px-6 py-4 dark:border-gray-800 dark:bg-gray-900">
                 <div class="flex items-center gap-3">
                     <button type="button" x-on:click="sidebarOpen = true" class="rounded-lg p-2 text-gray-500 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800 sm:hidden" aria-label="{{ __('Open menu') }}">
-                        ☰
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
                     </button>
                     <h1 class="font-display text-lg font-bold">{{ $title ?? __('Admin') }}</h1>
                 </div>
-                <button type="button" x-data x-on:click="
+                <button type="button" x-data="{ dark: document.documentElement.classList.contains('dark') }" x-on:click="
                     document.documentElement.classList.toggle('dark');
-                    try { localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light'); } catch (e) {}
-                " class="rounded-lg p-2 text-gray-500 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800">🌓</button>
+                    dark = document.documentElement.classList.contains('dark');
+                    try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) {}
+                " class="rounded-lg p-2 text-gray-500 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800" aria-label="{{ __('Toggle dark mode') }}">
+                    <svg x-show="!dark" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5" /><path d="M12 2.5v2M12 19.5v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2.5 12h2M19.5 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" /></svg>
+                    <svg x-show="dark" x-cloak class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 019.5 4a8.5 8.5 0 1010.5 10.5z"/></svg>
+                </button>
             </header>
 
             @if(session('status'))
